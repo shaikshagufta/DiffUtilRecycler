@@ -4,11 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.diffutilrecycler.Person
 import com.example.diffutilrecycler.R
+import com.example.diffutilrecycler.databinding.ItemPersonBinding
 
 
 class PersonAdapter : ListAdapter<Person, PersonAdapter.PersonViewHolder>(PersonDC()) {
@@ -16,8 +18,20 @@ class PersonAdapter : ListAdapter<Person, PersonAdapter.PersonViewHolder>(Person
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
         //create and inflate the view
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_person, parent, false)
-        return PersonViewHolder(view)
+        // val view = LayoutInflater.from(parent.context).inflate(R.layout.item_person, parent, false)
+        // return PersonViewHolder(view)
+
+        // 1 simplest : return PersonViewHolder(ItemPersonBinding.inflate(LayoutInflater.from(parent.context),parent, false))
+
+        return PersonViewHolder(
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.item_person,
+                parent,
+                false
+            )
+        )
+
     }
 
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
@@ -25,11 +39,9 @@ class PersonAdapter : ListAdapter<Person, PersonAdapter.PersonViewHolder>(Person
         holder.bind(getItem(position))
     }
 
-    class PersonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(item: Person?) {
-            itemView.findViewById<TextView>(R.id.personIdTV).text = item?.id.toString()
-            itemView.findViewById<TextView>(R.id.personAgeTV).text = item?.age.toString()
-            itemView.findViewById<TextView>(R.id.personNameTV).text = item?.name.toString()
+    class PersonViewHolder(private val binding: ItemPersonBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(person: Person?) {// or leave it as item and use the same in the method
+            binding.person = person
         }
 
     }

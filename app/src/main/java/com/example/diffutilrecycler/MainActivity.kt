@@ -14,7 +14,7 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity() {
 
     //global variable for the PersonAdapter
-    lateinit var personAdapter: PersonAdapter2
+    lateinit var personAdapter: PersonAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<RecyclerView>(R.id.personRecyclerView).apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
-            personAdapter = PersonAdapter2()
+            personAdapter = PersonAdapter()
             adapter = personAdapter
         }
 
